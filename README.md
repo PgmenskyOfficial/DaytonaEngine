@@ -37,3 +37,9 @@ Found a bug? Help us improve the engine!
 
 ## 📄 License
 This project is open-source and licensed under the **GPL-3.0 License**. See the [LICENSE](LICENSE.txt) file for details.
+
+---
+
+## 👥 Author / Creator
+
+* ** PgmenskyOfficial** - *The creator of the program and the current programmer* - [@PgmenskyOfficial](https://github.com/PgmenskyOfficial)
