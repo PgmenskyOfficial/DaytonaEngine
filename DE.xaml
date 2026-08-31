@@ -11,16 +11,16 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Górna wstążka -->
+            <!-- Top ribbon -->
             <RowDefinition Height="Auto"/>
-            <!-- Główna zawartość edytora -->
+            <!-- Main editor content -->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- 1. WSTĄŻKA (Ribbon) -->
+        <!-- 1. RIBBON -->
         <Fluent:Ribbon Grid.Row="0">
 
-            <!-- Zakładka Projekt -->
+            <!-- Project Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Project}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_File}">
                     <Fluent:Button Header="{DynamicResource Menu_New}" SizeDefinition="Large" Click="New_Click" />
@@ -29,7 +29,7 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Zakładka Edycja -->
+            <!-- Edit Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Edit}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Clipboard}">
                     <Fluent:Button Header="{DynamicResource Menu_Cut}" Click="Cut_Click" SizeDefinition="Middle" />
@@ -38,15 +38,15 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Zakładka Narzędzia -->
+            <!-- Tools Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Tools}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Options}">
-                    <!-- TUTAJ DODANO Click="MenuSettings_Click" -->
+                    <!-- Click="MenuSettings_Click" ADDED HERE -->
                     <Fluent:Button Header="{DynamicResource Menu_Settings}" SizeDefinition="Large" Click="MenuSettings_Click" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Zakładka Widok -->
+            <!-- View Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_View}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Panels}">
                     <Fluent:ToggleButton x:Name="BtnHierarchy" Header="{DynamicResource Menu_Hierarchy}" IsChecked="True" SizeDefinition="Large"
@@ -56,7 +56,7 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Zakładka Pomoc -->
+            <!-- Help Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Help}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Info}">
                     <Fluent:Button Header="{DynamicResource Menu_Documentation}" SizeDefinition="Large" Click="MenuDocumentation_Click" />
@@ -67,7 +67,7 @@
         </Fluent:Ribbon>
 
 
-        <!-- 2. UKŁAD EDYTORA (3 Kolumny: Hierarchia | Kod Binarny | Właściwości) -->
+        <!-- 2. EDITOR LAYOUT (3 Columns: Hierarchy | Binary Code | Properties) -->
         <Grid Grid.Row="1" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
@@ -75,12 +75,12 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Lewy panel: Hierarchia -->
+            <!-- Left panel: Hierarchy -->
             <Border x:Name="HierarchyPanel" Grid.Column="0" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
                 <TextBlock Text="{DynamicResource Menu_Hierarchy}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
             </Border>
 
-            <!-- Środkowy panel: Podgląd Kodu Binarnego -->
+            <!-- Middle panel: Binary Code Preview with Zoom functionality -->
             <Border Grid.Column="1" Background="#FF1E1E1E" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -88,17 +88,33 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{DynamicResource Menu_binary}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
+                    <!-- Header with title and zoom percentage display -->
+                    <Grid Grid.Row="0" Margin="8,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{DynamicResource Menu_binary}" Foreground="White" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ZoomPercentageText" Grid.Column="1" Text="100%" Foreground="#FFDCDCDC" FontSize="11" VerticalAlignment="Center"/>
+                    </Grid>
 
-                    <TextBox Grid.Row="1" Background="#FF1E1E1E" Foreground="#FFDCDCDC" BorderThickness="0" 
-                             FontFamily="Consolas" FontSize="13" AcceptsReturn="True" TextWrapping="NoWrap" 
-                             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                             Padding="5"
-                             Text=" "/>
+                    <!-- Binary code text box with zoom capability -->
+                    <ScrollViewer Grid.Row="1" Background="#FF1E1E1E" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <TextBox x:Name="BinaryTextBox" Background="#FF1E1E1E" Foreground="#FFDCDCDC" BorderThickness="0" 
+                                 FontFamily="Consolas" FontSize="13" AcceptsReturn="True" TextWrapping="NoWrap" 
+                                 Padding="5"
+                                 PreviewMouseWheel="BinaryTextBox_PreviewMouseWheel"
+                                 Text=" ">
+                            <!-- RenderTransform for scaling/zooming text -->
+                            <TextBox.LayoutTransform>
+                                <ScaleTransform x:Name="BinaryTextScaleTransform" ScaleX="1" ScaleY="1"/>
+                            </TextBox.LayoutTransform>
+                        </TextBox>
+                    </ScrollViewer>
                 </Grid>
             </Border>
 
-            <!-- Prawy panel: Właściwości -->
+            <!-- Right panel: Properties -->
             <Border x:Name="PropertiesPanel" Grid.Column="2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
                 <TextBlock Text="{DynamicResource Menu_Properties}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
             </Border>

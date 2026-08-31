@@ -58,4 +58,6 @@
     <!-- Ochrona Zapisu -->
     <sys:String x:Key="Msg_UnsavedChanges">Masz niezapisane zmiany. Czy chcesz je zapisać przed wyjściem?</sys:String>
     <sys:String x:Key="Msg_WarningTitle">Niezapisane zmiany</sys:String>
+    <!-- Doc -->
+    <sys:String x:Key="Doc_WorkInProgress">Prace w toku</sys:String>
 </ResourceDictionary>

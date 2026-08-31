@@ -11,7 +11,7 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <!-- Styl przycisków -->
+        <!-- Button style -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="#FF333337"/>
             <Setter Property="Foreground" Value="White"/>
@@ -35,7 +35,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Styl zakładek (TabItem) -->
+        <!-- TabItem style -->
         <Style TargetType="TabItem">
             <Setter Property="Background" Value="#FF2D2D30"/>
             <Setter Property="Foreground" Value="White"/>
@@ -62,7 +62,7 @@
             </Setter>
         </Style>
 
-        <!-- Combo -->
+        <!-- ComboBox style -->
         <Style TargetType="ComboBox">
             <Setter Property="Background" Value="#FF333337"/>
             <Setter Property="Foreground" Value="White"/>
@@ -78,12 +78,12 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="20"/>
                                     </Grid.ColumnDefinitions>
-                                    <!-- Wybrany tekst w ComboBoxie -->
+                                    <!-- Selected text ComboBox -->
                                     <ContentPresenter Margin="6,3,3,3" VerticalAlignment="Center" HorizontalAlignment="Left"
                                                       Content="{TemplateBinding SelectionBoxItem}"
                                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                                       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
-                                    <!-- Przycisk rozwijania listy -->
+                                    <!-- Button list -->
                                     <ToggleButton Grid.Column="1" Focusable="false" Background="Transparent"
                                                   IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                                   ClickMode="Press">
@@ -97,7 +97,7 @@
                                     </ToggleButton>
                                 </Grid>
                             </Border>
-                            <!-- Lista rozwijana -->
+                            <!-- List expanded -->
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide"
                                    IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom">
                                 <Border x:Name="DropDownBorder" Background="#FF333337" BorderBrush="#FF515155" BorderThickness="1" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
@@ -112,7 +112,7 @@
             </Setter>
         </Style>
 
-        <!-- Styl elementów rozwijanej listy ComboBoxItem -->
+        <!-- ComboBoxItem drop-down list item style -->
         <Style TargetType="ComboBoxItem">
             <Setter Property="Background" Value="#FF333337"/>
             <Setter Property="Foreground" Value="White"/>
@@ -142,30 +142,30 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Tytuł okna wewnątrz -->
+        <!-- Window title inside -->
         <TextBlock Text="{DynamicResource Settings_Title}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,15"/>
 
-        <!-- Zakładki -->
+        <!-- Tabs -->
         <TabControl Grid.Row="1" Background="#FF1E1E1E" BorderBrush="#FF3F3F46" Foreground="White">
 
-            <!-- Zakładka Ogólne -->
+            <!-- General Tab -->
             <TabItem Header="{DynamicResource Tab_General}">
                 <StackPanel Margin="10" Orientation="Vertical" Background="#FF1E1E1E">
 
-                    <!-- Wybór Języka -->
+                    <!-- Language selection -->
                     <TextBlock Text="{DynamicResource Label_Language}" Margin="0,0,0,5" Foreground="#FFDCDCDC"/>
                     <ComboBox x:Name="LanguageComboBox" Width="200" HorizontalAlignment="Left" SelectionChanged="LanguageComboBox_SelectionChanged">
                         <ComboBoxItem Content="Polski" Tag="pl"/>
                         <ComboBoxItem Content="English" Tag="en"/>
                     </ComboBox>
 
-                    <!-- Opcja dodatkowa np. Autozapis -->
+                    <!-- Additional option e.g. AutoSave -->
                     <CheckBox x:Name="AutoSaveCheckBox" Content="{DynamicResource Check_AutoSave}" Foreground="White" Margin="0,15,0,0"/>
 
                 </StackPanel>
             </TabItem>
 
-            <!-- Zakładka Edytor -->
+            <!-- Editor Tab -->
             <TabItem Header="{DynamicResource Tab_Editor}">
                 <StackPanel Margin="10" Orientation="Vertical" Background="#FF1E1E1E">
                     <TextBlock Text="{DynamicResource Label_FontSize}" Margin="0,0,0,5" Foreground="#FFDCDCDC"/>
@@ -175,7 +175,7 @@
 
         </TabControl>
 
-        <!-- Przyciski na dole -->
+        <!-- Bottom buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button Content="{DynamicResource Btn_Save}" Width="80" Height="25" Margin="0,0,10,0" Click="SaveButton_Click"/>
             <Button Content="{DynamicResource Btn_Cancel}" Width="80" Height="25" Click="CancelButton_Click"/>

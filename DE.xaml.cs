@@ -26,6 +26,9 @@ namespace DaytonaEngine
         private string? currentFilePath = null;
         private bool isModified = false;
 
+        // --- ZOOM FUNCTIONALITY FOR BINARY TEXTBOX ---
+        private double _zoomLevel = 1.0;
+
         // --- AUTO-SAVE TIMER ---
         private DispatcherTimer _autoSaveTimer = new();
 
@@ -51,6 +54,34 @@ namespace DaytonaEngine
 
             // --- INITIALIZE AUTO-SAVE ---
             SetupAutoSave();
+        }
+
+        // --- ZOOM MOUSE WHEEL HANDLER ---
+        private void BinaryTextBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // Check if Ctrl key is pressed to perform zoom
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                if (e.Delta > 0)
+                {
+                    _zoomLevel += 0.1; // Zoom in
+                }
+                else
+                {
+                    _zoomLevel -= 0.1; // Zoom out
+                    if (_zoomLevel < 0.3) _zoomLevel = 0.3; // Minimum zoom limit (30%)
+                }
+
+                // Apply scale transform to the text box
+                BinaryTextScaleTransform.ScaleX = _zoomLevel;
+                BinaryTextScaleTransform.ScaleY = _zoomLevel;
+
+                // Update zoom percentage text in the header
+                ZoomPercentageText.Text = $"{Math.Round(_zoomLevel * 100)}%";
+
+                // Mark event as handled to prevent standard vertical scrolling while zooming
+                e.Handled = true;
+            }
         }
 
         private void SetupAutoSave()

@@ -58,7 +58,6 @@ namespace DaytonaEngine
                         var kbStr = item["TotalVisibleMemorySize"]?.ToString();
                         if (long.TryParse(kbStr, out long totalKb))
                         {
-                            // Przeliczamy Kilobajty na Gigabajty i zaokrąglamy do 2 miejsc po przecinku
                             return Math.Round((double)totalKb / (1024 * 1024), 2);
                         }
                     }

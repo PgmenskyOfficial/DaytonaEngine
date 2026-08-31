@@ -17,6 +17,16 @@ namespace DaytonaEngine.Resources.UI
         public DocumentationWindow()
         {
             InitializeComponent();
+
+            // Synchronizuje słownik językowy z okna głównego, aby tekst dostosował się do wybranego języka
+            if (Application.Current.MainWindow != null)
+            {
+                this.Resources.MergedDictionaries.Clear();
+                foreach (var dictionary in Application.Current.MainWindow.Resources.MergedDictionaries)
+                {
+                    this.Resources.MergedDictionaries.Add(dictionary);
+                }
+            }
         }
     }
 }

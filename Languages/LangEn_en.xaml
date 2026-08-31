@@ -58,4 +58,6 @@
     <!-- DATA PROTECTION / CLOSING -->
     <sys:String x:Key="Msg_UnsavedChanges">You have unsaved changes. Do you want to save them before exiting?</sys:String>
     <sys:String x:Key="Msg_WarningTitle">Unsaved Changes</sys:String>
+    <!-- Doc -->
+    <sys:String x:Key="Doc_WorkInProgress">Work In Progress</sys:String>
 </ResourceDictionary>
