@@ -1,0 +1,14 @@
+﻿<Application x:Class="DaytonaEngine.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+               <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Styles.xaml" />
+                <ResourceDictionary Source="Languages/LangPL_pl.xaml" />
+                <ResourceDictionary Source="/Languages/LangEn_en.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

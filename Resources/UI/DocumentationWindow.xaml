@@ -1,0 +1,29 @@
+﻿<Window x:Class="DaytonaEngine.Resources.UI.DocumentationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Menu_Documentation}" Height="600" Width="800"
+        WindowStartupLocation="CenterOwner" Background="#FF1E1E1E">
+
+    <!-- Jeśli masz słownik zasobów w osobnym pliku, dodaj go tutaj: -->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Przykładowa ścieżka do Twojego słownika językowego (dostosuj do swojego projektu) -->
+                <ResourceDictionary Source="/Languages/LangPL_pl.xaml"/>
+                <ResourceDictionary Source="/Languages/LangEn_en.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <FlowDocumentScrollViewer Background="#FF1E1E1E" Foreground="#FFDCDCDC">
+            <FlowDocument>
+                <Paragraph FontSize="22" FontWeight="Bold" Foreground="White">
+                    <!-- Przykład użycia dynamic resource -->
+                    <Run Text="{DynamicResource Menu_Documentation}"/>
+                </Paragraph>
+                <Paragraph Foreground="#FFDCDCDC">Work in Progress</Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>

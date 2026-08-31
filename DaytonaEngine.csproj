@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+	  <Company>The Dayton Company </Company>
+	  <Product>DaytonaEngine</Product>
+	  <Description>DaytonaEngine Editor</Description>
+	  <Copyright>Copyright © 2026</Copyright>
+	  <AssemblyVersion>0.1</AssemblyVersion>
+	  <FileVersion>0.1</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\DE_LOGO.ico" />
+    <None Remove="Resources\DE_LOGO_16X.ico" />
+    <None Remove="Resources\DE_LOGO_32X.ico" />
+    <None Remove="Resources\DE_LOGO_48X.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\DE_LOGO.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DE_LOGO_16X.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DE_LOGO_32X.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DE_LOGO_48X.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fluent.Ribbon" Version="11.0.2" />
+    <PackageReference Include="Serilog" Version="4.4.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Languages\LangEn_en.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Languages\LangPL_pl.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+
+</Project>
