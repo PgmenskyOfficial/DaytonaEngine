@@ -54,10 +54,10 @@ namespace DaytonaEngine
 
         private async void LoadEngineAsync()
         {
-            // Symulacja ładowania silnika (np. 2,5 sekundy)
+            // Simulate engine loading (e.g. 2.5 seconds)
             await Task.Delay(2500);
 
-            // Zamykamy splash screen
+            // Close the splash screen
             this.Close();
         }
     }

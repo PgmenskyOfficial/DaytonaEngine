@@ -18,7 +18,7 @@ namespace DaytonaEngine.Resources.UI
         {
             InitializeComponent();
 
-            // Synchronizuje słownik językowy z okna głównego, aby tekst dostosował się do wybranego języka
+            // Synchronize the language dictionary with the main window so the text adapts to the selected language
             if (Application.Current.MainWindow != null)
             {
                 this.Resources.MergedDictionaries.Clear();

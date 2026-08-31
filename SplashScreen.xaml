@@ -16,13 +16,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Logo / Nazwa Silnika -->
+            <!-- Logo / Engine Name -->
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="DaytonaEngine" Foreground="White" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBlock Text="{DynamicResource Splash_Init}" Foreground="#FFAAAAAA" FontSize="12" HorizontalAlignment="Center" Margin="0,5,0,0"/>
             </StackPanel>
 
-            <!-- Pasek postępu -->
+            <!-- Progress bar -->
             <ProgressBar Grid.Row="1" Height="4" IsIndeterminate="True" Background="#FF2D2D30" Foreground="#FF007ACC" BorderThickness="0" Margin="0,20,0,10"/>
 
             <!-- Status -->
