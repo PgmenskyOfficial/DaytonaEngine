@@ -1,0 +1,25 @@
+﻿<Window x:Class="DaytonaEngine.Resources.UI.InputBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource RenameTitle}" Height="165" Width="380"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#FF2D2D30" Foreground="White">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{DynamicResource RenamePromptText}" Grid.Row="0" Margin="0,0,0,8" Foreground="White"/>
+        <TextBox x:Name="ResponseTextBox" Grid.Row="1" Height="28" Padding="6,4" 
+                 Background="#FF1E1E1E" Foreground="White" BorderBrush="#FF515155" CaretBrush="White"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="{DynamicResource BtnOK}" IsDefault="True" Click="OkButton_Click" Width="75" Height="26" Margin="0,0,8,0"
+                    Background="#FF3F3F46" Foreground="White" BorderBrush="#FF515155"/>
+            <Button Content="{DynamicResource BtnCancel}" IsCancel="True" Width="75" Height="26"
+                    Background="#FF3F3F46" Foreground="White" BorderBrush="#FF515155"/>
+        </StackPanel>
+    </Grid>
+</Window>

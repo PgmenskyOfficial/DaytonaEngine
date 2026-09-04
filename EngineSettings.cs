@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Globalization;
@@ -12,6 +13,9 @@ namespace DaytonaEngine
         public string Language { get; set; } = GetDefaultLanguage();
         public bool AutoSave { get; set; } = false;
         public double EditorFontSize { get; set; } = 12.0;
+
+        // List of recent project files (.de)
+        public List<string> RecentFiles { get; set; } = new List<string>();
 
         private static readonly string SettingsFolderPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -27,7 +31,7 @@ namespace DaytonaEngine
             {
                 string systemLang = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
 
-                //Windows a polish lang a defualt a en
+                // Windows a polish lang a default a en
                 if (systemLang.Equals("pl", StringComparison.OrdinalIgnoreCase))
                 {
                     return "pl";
@@ -35,7 +39,7 @@ namespace DaytonaEngine
             }
             catch
             {
-                
+
             }
 
             return "en";
@@ -77,6 +81,29 @@ namespace DaytonaEngine
             {
                 Log.Error(ex, "Failed to save configuration file to AppData.");
             }
+        }
+
+        /// <summary>
+        /// Adds a file path to the recent projects list and automatically saves settings.
+        /// </summary>
+        public void AddRecentFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath)) return;
+
+            // Remove duplicate if the file is already on the list (to move it to the top)
+            RecentFiles.RemoveAll(f => f.Equals(filePath, StringComparison.OrdinalIgnoreCase));
+
+            // Insert at the very beginning of the list
+            RecentFiles.Insert(0, filePath);
+
+            // Limit the list to a maximum of 5 items
+            if (RecentFiles.Count > 5)
+            {
+                RecentFiles.RemoveAt(RecentFiles.Count - 1);
+            }
+
+            // Automatically save changes via the Save method
+            Save();
         }
     }
 }

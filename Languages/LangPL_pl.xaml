@@ -14,7 +14,8 @@
     <sys:String x:Key="Menu_New">Nowy</sys:String>
     <sys:String x:Key="Menu_Open">Otwórz</sys:String>
     <sys:String x:Key="Menu_Save">Zapisz</sys:String>
-
+    <sys:String x:Key="Menu_Recent">Ostatnie</sys:String>
+    
     <sys:String x:Key="Group_Clipboard">Schowek</sys:String>
     <sys:String x:Key="Menu_Cut">Wytnij</sys:String>
     <sys:String x:Key="Menu_Copy">Kopiuj</sys:String>
@@ -60,4 +61,13 @@
     <sys:String x:Key="Msg_WarningTitle">Niezapisane zmiany</sys:String>
     <!-- Doc -->
     <sys:String x:Key="Doc_WorkInProgress">Prace w toku</sys:String>
+    <!-- INPUT BOX -->
+    <sys:String x:Key="RenameTitle">Zmień nazwę</sys:String>
+    <sys:String x:Key="RenamePromptText">Wprowadź nową nazwę:</sys:String>
+    <sys:String x:Key="BtnOK">OK</sys:String>
+    <sys:String x:Key="BtnCancel">Anuluj</sys:String>
+
+    <sys:String x:Key="Ctx_AddItem">Dodaj element...</sys:String>
+    <sys:String x:Key="Ctx_Rename">Zmień nazwę (F2)</sys:String>
+    <sys:String x:Key="Ctx_Delete">Usuń</sys:String>
 </ResourceDictionary>

@@ -5,31 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DaytonaEngine"
         xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
         Title="DaytonaEngine Editor" Height="720" Width="1280"
         Icon="pack://application:,,,/Resources/DE_LOGO_16X.ico"
         WindowStartupLocation="CenterScreen">
+
+    <!-- PRO DARK SCROLLBAR STYLE -->
+    <Fluent:RibbonWindow.Resources>
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Background" Value="#FF1E1E1E"/>
+            <Setter Property="Foreground" Value="#FF505050"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="Bg" Background="#FF1E1E1E">
+                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Border Background="#FF424242" CornerRadius="3" Margin="2"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="12"/>
+                    <Setter Property="Height" Value="Auto"/>
+                </Trigger>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Height" Value="12"/>
+                    <Setter Property="Width" Value="Auto"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Fluent:RibbonWindow.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Top ribbon -->
             <RowDefinition Height="Auto"/>
-            <!-- Main editor content -->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- 1. RIBBON -->
         <Fluent:Ribbon Grid.Row="0">
-
-            <!-- Project Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Project}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_File}">
                     <Fluent:Button Header="{DynamicResource Menu_New}" SizeDefinition="Large" Click="New_Click" />
                     <Fluent:Button Header="{DynamicResource Menu_Open}" SizeDefinition="Middle" Click="Open_Click" />
                     <Fluent:Button Header="{DynamicResource Menu_Save}" SizeDefinition="Middle" Click="Save_Click" />
+                    <Fluent:DropDownButton x:Name="RecentFilesDropdown" Header="{DynamicResource Menu_Recent}" SizeDefinition="Middle" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Edit Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Edit}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Clipboard}">
                     <Fluent:Button Header="{DynamicResource Menu_Cut}" Click="Cut_Click" SizeDefinition="Middle" />
@@ -38,57 +79,105 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Tools Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Tools}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Options}">
-                    <!-- Click="MenuSettings_Click" ADDED HERE -->
                     <Fluent:Button Header="{DynamicResource Menu_Settings}" SizeDefinition="Large" Click="MenuSettings_Click" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- View Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_View}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Panels}">
-                    <Fluent:ToggleButton x:Name="BtnHierarchy" Header="{DynamicResource Menu_Hierarchy}" IsChecked="True" SizeDefinition="Large"
-                             Checked="BtnHierarchy_Checked" Unchecked="BtnHierarchy_Unchecked" />
-                    <Fluent:ToggleButton x:Name="BtnProperties" Header="{DynamicResource Menu_Properties}" IsChecked="True" SizeDefinition="Large"
-                             Checked="BtnProperties_Checked" Unchecked="BtnProperties_Unchecked"  />
+                    <Fluent:ToggleButton x:Name="BtnHierarchy" Header="{DynamicResource Menu_Hierarchy}" IsChecked="True" SizeDefinition="Large" Checked="BtnHierarchy_Checked" Unchecked="BtnHierarchy_Unchecked" />
+                    <Fluent:ToggleButton x:Name="BtnProperties" Header="{DynamicResource Menu_Properties}" IsChecked="True" SizeDefinition="Large" Checked="BtnProperties_Checked" Unchecked="BtnProperties_Unchecked" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
-            <!-- Help Tab -->
             <Fluent:RibbonTabItem Header="{DynamicResource Menu_Help}">
                 <Fluent:RibbonGroupBox Header="{DynamicResource Group_Info}">
                     <Fluent:Button Header="{DynamicResource Menu_Documentation}" SizeDefinition="Large" Click="MenuDocumentation_Click" />
                     <Fluent:Button Header="{DynamicResource Menu_About}" SizeDefinition="Middle" Click="MenuAbout_Click" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-
         </Fluent:Ribbon>
 
-
-        <!-- 2. EDITOR LAYOUT (3 Columns: Hierarchy | Binary Code | Properties) -->
+        <!-- 2. EDITOR LAYOUT -->
         <Grid Grid.Row="1" Margin="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="250" MinWidth="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="300" MinWidth="150"/>
             </Grid.ColumnDefinitions>
 
             <!-- Left panel: Hierarchy -->
             <Border x:Name="HierarchyPanel" Grid.Column="0" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
-                <TextBlock Text="{DynamicResource Menu_Hierarchy}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
-            </Border>
-
-            <!-- Middle panel: Binary Code Preview with Zoom functionality -->
-            <Border Grid.Column="1" Background="#FF1E1E1E" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Header with title and zoom percentage display -->
+                    <Grid Grid.Row="0" Margin="8,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{DynamicResource Menu_Hierarchy}" Foreground="White" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" Content="+" Width="22" Height="22" Background="#FF333337" Foreground="White" BorderBrush="#FF3F3F46" Click="MenuAddHierarchyItem_Click" ToolTip="Add item"/>
+                    </Grid>
+
+                    <TreeView x:Name="ProjectTreeView" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Foreground="White" KeyDown="ProjectTreeView_KeyDown">
+                        <TreeView.Resources>
+                            <ContextMenu x:Key="ItemContextMenu">
+                                <MenuItem Header="{DynamicResource Ctx_AddItem}" Click="MenuAddHierarchyItem_Click"/>
+                                <MenuItem Header="{DynamicResource Ctx_Rename}" Click="MenuRenameHierarchyItem_Click"/>
+                                <MenuItem Header="{DynamicResource Ctx_Delete}" Click="MenuDeleteHierarchyItem_Click"/>
+                            </ContextMenu>
+                        </TreeView.Resources>
+
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="IsExpanded" Value="True"/>
+                                <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TreeViewItem">
+                                            <StackPanel>
+                                                <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="3">
+                                                    <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                                </Border>
+                                                <ItemsPresenter x:Name="ItemsHost"/>
+                                            </StackPanel>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="#FF3F3F46"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+
+                        <TreeViewItem x:Name="RootProjectItem" Header="DaytonaProject">
+                        </TreeViewItem>
+                    </TreeView>
+                </Grid>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="5" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Cursor="SizeWE"/>
+
+            <!-- Middle panel: Binary Code Preview -->
+            <Border Grid.Column="2" Background="#FF1E1E1E" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
                     <Grid Grid.Row="0" Margin="8,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -98,27 +187,105 @@
                         <TextBlock x:Name="ZoomPercentageText" Grid.Column="1" Text="100%" Foreground="#FFDCDCDC" FontSize="11" VerticalAlignment="Center"/>
                     </Grid>
 
-                    <!-- Binary code text box with zoom capability -->
-                    <ScrollViewer Grid.Row="1" Background="#FF1E1E1E" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <TextBox x:Name="BinaryTextBox" Background="#FF1E1E1E" Foreground="#FFDCDCDC" BorderThickness="0" 
-                                 FontFamily="Consolas" FontSize="13" AcceptsReturn="True" TextWrapping="NoWrap" 
-                                 Padding="5"
-                                 PreviewMouseWheel="BinaryTextBox_PreviewMouseWheel"
-                                 Text=" ">
-                            <!-- RenderTransform for scaling/zooming text -->
-                            <TextBox.LayoutTransform>
+                    <Grid Grid.Row="1">
+                        <avalonEdit:TextEditor x:Name="BinaryEditor"
+                                             Background="#FF1E1E1E" 
+                                             Foreground="#FFDCDCDC" 
+                                             FontFamily="Consolas" 
+                                             FontSize="13" 
+                                             ShowLineNumbers="True"
+                                             WordWrap="False"
+                                             SyntaxHighlighting="None"
+                                             HorizontalScrollBarVisibility="Auto"
+                                             VerticalScrollBarVisibility="Auto"
+                                             PreviewMouseWheel="BinaryEditor_PreviewMouseWheel">
+                            <avalonEdit:TextEditor.LayoutTransform>
                                 <ScaleTransform x:Name="BinaryTextScaleTransform" ScaleX="1" ScaleY="1"/>
-                            </TextBox.LayoutTransform>
-                        </TextBox>
-                    </ScrollViewer>
+                            </avalonEdit:TextEditor.LayoutTransform>
+                        </avalonEdit:TextEditor>
+
+                        <!-- Search & Replace Panel (Ctrl+F / Ctrl+G) -->
+                        <Border x:Name="CustomSearchPanel" 
+                                Visibility="Collapsed"
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,25,0"
+                                Background="#FF2D2D30" 
+                                BorderBrush="#FF3F3F46" 
+                                BorderThickness="1" 
+                                CornerRadius="4"
+                                Padding="8"
+                                Width="300"
+                                Panel.ZIndex="10">
+                            <StackPanel>
+                                <!-- Find Row -->
+                                <Grid Margin="0,0,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox x:Name="SearchTextBox" 
+                                           Grid.Column="0" 
+                                           Background="#FF1E1E1E" 
+                                           Foreground="White" 
+                                           BorderBrush="#FF3F3F46"
+                                           VerticalContentAlignment="Center"
+                                           Padding="4"
+                                           TextChanged="SearchTextBox_TextChanged"
+                                           KeyDown="SearchTextBox_KeyDown" />
+
+                                    <Button x:Name="BtnFindNext" Grid.Column="1" Content="▼" Width="24" Height="24" Margin="4,0,0,0" Background="#FF333337" Foreground="White" BorderBrush="#FF3F3F46" Click="BtnFindNext_Click" ToolTip="Find Next"/>
+                                    <Button x:Name="BtnFindPrev" Grid.Column="2" Content="▲" Width="24" Height="24" Margin="2,0,0,0" Background="#FF333337" Foreground="White" BorderBrush="#FF3F3F46" Click="BtnFindPrev_Click" ToolTip="Find Previous"/>
+                                    <Button x:Name="BtnCloseSearch" Grid.Column="3" Content="✕" Width="24" Height="24" Margin="4,0,0,0" Background="Transparent" Foreground="#FFF1F1F1" BorderBrush="Transparent" Click="BtnCloseSearch_Click" />
+                                </Grid>
+
+                                <!-- Replace Row (Visible on Ctrl+G) -->
+                                <Grid x:Name="ReplaceGrid" Margin="0,4,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox x:Name="ReplaceTextBox" 
+                                           Grid.Column="0" 
+                                           Background="#FF1E1E1E" 
+                                           Foreground="White" 
+                                           BorderBrush="#FF3F3F46"
+                                           VerticalContentAlignment="Center"
+                                           Padding="4"
+                                           ToolTip="Replace text" />
+
+                                    <Button x:Name="BtnReplace" Grid.Column="1" Content="Replace" Height="24" Margin="4,0,0,0" Padding="6,0" Background="#FF333337" Foreground="White" BorderBrush="#FF3F3F46" Click="BtnReplace_Click"/>
+                                    <Button x:Name="BtnReplaceAll" Grid.Column="2" Content="All" Height="24" Margin="2,0,0,0" Padding="6,0" Background="#FF333337" Foreground="White" BorderBrush="#FF3F3F46" Click="BtnReplaceAll_Click"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Status Bar (Caret Position) -->
+                    <Border Grid.Row="2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,1,0,0" Padding="6,3">
+                        <TextBlock x:Name="CaretPositionText" Text="Ln 1, Col 1" Foreground="#FFB0B0B0" FontSize="11" HorizontalAlignment="Right"/>
+                    </Border>
                 </Grid>
             </Border>
 
+            <GridSplitter Grid.Column="3" Width="5" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Stretch" Cursor="SizeWE"/>
+
             <!-- Right panel: Properties -->
-            <Border x:Name="PropertiesPanel" Grid.Column="2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
-                <TextBlock Text="{DynamicResource Menu_Properties}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
+            <Border x:Name="PropertiesPanel" Grid.Column="4" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="1" Margin="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{DynamicResource Menu_Properties}" Foreground="White" Margin="8,5" FontSize="11" FontWeight="Bold"/>
+                    <TextBlock Grid.Row="1" Text="Work In Progress" Foreground="#FF808080" FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                </Grid>
             </Border>
         </Grid>
-
     </Grid>
 </Fluent:RibbonWindow>
