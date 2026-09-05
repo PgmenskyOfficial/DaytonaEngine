@@ -8,7 +8,7 @@
 
 * **Animated Splash Screen** – Smooth startup intro.
 * **Modern Design** – User interface based on `fluent.ribbon`.
-* **Project Management** – New *Open/Save* functions (saves in `{ .de }` format).
+* **Project Management** – New *Open/Save* functions (saves in `{ .depr }` format).
 * **Editing & Tools** – Fully working *Cut, copy, and paste*, plus hidden hierarchy and proportions.
 * **Documentation** – Built-in *About* and documentation sections (work in progress).
 * **Configuration** – Program settings saved locally in `appdata/local/Config.json`.
@@ -20,9 +20,9 @@
 
 Since this beta release does not have an automated installer:
 1. Go to the **[Releases](../../releases)** section on the right side of the repository.
-2. Download the latest **`DaytonaEngineBETA.zip`** file.
+2. Download the latest **`Setup_DaytonaEngine_BETA.exe)`** file.
 3. Extract the archive to any folder.
-4. Run the **`DaytonaEngine.exe`** file.
+4. Run Daytona Engine via the shortcut
 
 > **System Requirements:** **.NET 10** is required to run the program.
 
